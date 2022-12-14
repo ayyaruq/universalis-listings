@@ -11,12 +11,15 @@ router = APIRouter()
 
 @router.post("/listings")
 async def update_listings():
+    return
 
 
 @router.get("/listings/{item_id}")
 async def listings(item_id: str):
+    return
 
 
 @router.get("/listing/{id}")
 async def listing(id: str):
+    return
 
