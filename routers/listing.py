@@ -9,14 +9,14 @@ ListingModel = create_pydantic_model(Listing, nested=True)
 
 router = APIRouter()
 
-@router.post("/")
-async def create_listing():
+@router.post("/listings")
+async def update_listings():
 
 
-@router.get("/")
-async def listings():
+@router.get("/listings/{item_id}")
+async def listings(item_id: str):
 
 
-@router.get("/{id}")
+@router.get("/listing/{id}")
 async def listing(id: str):
 
