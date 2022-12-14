@@ -2,28 +2,28 @@ from fastapi import FastAPI
 from piccolo_admin.endpoints import create_admin
 from piccolo.engine import engine_finder
 
-from routers import listings, characters, retainers
+
+from routers import listing, character, retainer
 
 
-app = FastAPI(
-    root_path = "/api/v3",
-)
+app = FastAPI()
 
 # Load our discrete Endpoints
 app.include_router(
-    listings.router,
+    listing.router,
     tags=["Listings"]
 )
 
 # These might be better with Piccolo's auto CRUD
-app.include_router(characters.router, prefix="/character")
-app.include_router(retainers.router, prefix="/retainer")
+app.include_router(character.router, prefix="/character")
+app.include_router(retainer.router, prefix="/retainer")
 
 # Load admin dashboard
 app.mount("/admin", create_admin(
     tables=APP_CONFIG.table_classes,
     # Required when running under HTTPS:
     # allowed_hosts=['my_site.com']
+    )
 )
 
 
