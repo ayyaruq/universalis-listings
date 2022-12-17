@@ -1,22 +1,42 @@
 from fastapi import FastAPI
 from piccolo_admin.endpoints import create_admin
+from piccolo_api.fastapi.endpoints import FastAPIWrapper, FastAPIKwargs
+from piccolo_api.crud.endpoints import PiccoloCRUD
 from piccolo.engine import engine_finder
 
-
-from routers import listing, character, retainer
+from app.api.routes import listing, character, retainer
+from app.models.listing.tables import Character, Retainer
+from app.models.listing.piccolo_app import APP_CONFIG
 
 
 app = FastAPI()
 
 # Load our discrete Endpoints
-app.include_router(
-    listing.router,
-    tags=["Listings"]
+app.include_router(listing.router)
+
+FastAPIWrapper(
+    root_url="/character/",
+    fastapi_app=app,
+    fastapi_kwargs=FastAPIKwargs(
+        all_routes={'tags': ["Character"]},
+    ),
+    piccolo_crud=PiccoloCRUD(
+        table=Character,
+        read_only=True,
+    )
 )
 
-# These might be better with Piccolo's auto CRUD
-app.include_router(character.router, prefix="/character")
-app.include_router(retainer.router, prefix="/retainer")
+FastAPIWrapper(
+    root_url="/retainer/",
+    fastapi_app=app,
+    fastapi_kwargs=FastAPIKwargs(
+        all_routes={'tags': ["Retainer"]},
+    ),
+    piccolo_crud=PiccoloCRUD(
+        table=Retainer,
+        read_only=True,
+    )
+)
 
 # Load admin dashboard
 app.mount("/admin", create_admin(
