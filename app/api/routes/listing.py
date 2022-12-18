@@ -30,7 +30,7 @@ async def update_listings(listings: list[ListingsIn]):
             updates.append(listing)
 
         # insert list of new entries to DB
-        tx.add(Listing.insert(updates))
+        tx.add(ListingDB.insert(*updates))
 
     # Dispatch the transaction to commit the updates
     await tx.run()
