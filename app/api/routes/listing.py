@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from itertools import groupby
 from uuid import uuid4
 
-from app.models.listing.tables import Listing
+from app.models.listing.tables import Listing as ListingDB
 from app.schemas.listing import ListingModel, ListingSummary
 
 router = APIRouter()
@@ -17,12 +17,12 @@ async def update_listings(listings: list[ListingsIn]):
     data = sorted(listings, sort_by_item)
     buckets = groupby(data, sort_by_item)
 
-    tx = Listing._meta.db.atomic()
+    tx = ListingDB._meta.db.atomic()
     for item_id, entries in buckets:
         # For each item ID, we clear current listings
         tx.add(Listing
-            .update({Band.live: False})
-            .where(Listing.item_id == item_id))
+            .update({ListingDB.live: False})
+            .where(ListingDB.item_id == item_id))
 
         updates: list[ListingModel] = []
         for entry in entries:
