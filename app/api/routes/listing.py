@@ -20,9 +20,9 @@ async def update_listings(listings: list[ListingsIn]):
     tx = ListingDB._meta.db.atomic()
     for item_id, entries in buckets:
         # For each item ID, we clear current listings
-        tx.add(Listing
+        tx.add(ListingDB
             .update({ListingDB.live: False})
-            .where(ListingDB.item_id == item_id))
+            .where((ListingDB.item_id == item_id) & (ListingDB.live == True))
 
         updates: list[ListingModel] = []
         for entry in entries:
