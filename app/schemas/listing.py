@@ -1,6 +1,6 @@
 import json
 from piccolo.utils.pydantic import create_pydantic_model
-from pydantic import BaseModel, Json, ValidationError, validator
+from pydantic import BaseModel, Json, ValidationError, validator, conlist
 
 from app.models.listing.tables import Listing
 
@@ -31,7 +31,7 @@ class ListingBase(BaseModel):
     world_id: int
     item_id: int
     hq: bool
-    materia: list[MateriaModel]
+    materia: conlist(MateriaModel, min_items=0, max_items=5)
     unit_price: int
     quantity: int
     retainer: RetainerBase
