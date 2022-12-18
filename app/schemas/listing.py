@@ -1,13 +1,19 @@
-import json
+from datetime import datetime
 from piccolo.utils.pydantic import create_pydantic_model
-from pydantic import BaseModel, Json, ValidationError, validator, conlist
+from pydantic import BaseModel, ValidationError, validator, conlist
 
 from app.models.listing.tables import Listing
+
+
+sort_by_slot = lambda x: x['slot_id']
 
 
 class MateriaModel(BaseModel):
     slot_id: int
     materia_id: int
+
+    def __getitem__(self, item):
+        return getattr(self, item)
 
 
 class NamePairModel(BaseModel):
@@ -35,6 +41,14 @@ class ListingBase(BaseModel):
     unit_price: int
     quantity: int
     retainer: RetainerBase
+
+    @validator('materia')
+    def sequential_slots(cls, v):
+        sorted_materia = sorted(v, key=sort_by_slot)
+        if [x['slot_id'] for x in sorted_materia] != list(range(0, len(v))):
+            raise ValidationError("oh fuck")
+
+        return v
 
 
 # A stripped down listing
