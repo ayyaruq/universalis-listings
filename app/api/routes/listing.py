@@ -24,9 +24,9 @@ async def update_listings(listings: list[ListingsIn]):
             .update({ListingDB.live: False})
             .where((ListingDB.item_id == item_id) & (ListingDB.live == True))
 
-        updates: list[ListingModel] = []
+        updates: list[ListingDB] = []
         for entry in entries:
-            listing = ListingModel(**listing.to_dict())
+            listing = ListingDB(**listing.dict())
             updates.append(listing)
 
         # insert list of new entries to DB
