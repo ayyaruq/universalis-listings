@@ -203,8 +203,8 @@ async def forwards():
     manager.add_column(
         table_class_name="Listing",
         tablename="listing",
-        column_name="quatity",
-        db_column_name="quatity",
+        column_name="quantity",
+        db_column_name="quantity",
         column_class_name="Integer",
         column_class=Integer,
         params={
@@ -329,8 +329,8 @@ async def forwards():
     manager.add_column(
         table_class_name="Listing",
         tablename="listing",
-        column_name="seller",
-        db_column_name="seller",
+        column_name="seller_id",
+        db_column_name="seller_id",
         column_class_name="ForeignKey",
         column_class=ForeignKey,
         params={

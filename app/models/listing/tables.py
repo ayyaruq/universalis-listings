@@ -22,12 +22,12 @@ class Listing(Table):
     on_mannequin = Boolean()
     materia = JSONB() # we do not enforce schema here
     unit_price = Integer()
-    quatity = Integer()
+    quantity = Integer()
     dye_id = Integer()
     last_review_time = Timestamp()
     last_upload_time = Timestamp()
     creator = ForeignKey(references=Character, null=True) # can be NULL for non-crafted items
     retainer = ForeignKey(references=Retainer, null=False) # retainers must exist on the market
-    seller = ForeignKey(references=Character, null=False) # seller must exist for a retainer
+    seller_id = ForeignKey(references=Character, null=True) # we don't always know who owns a retainer
     live = Boolean()
 
