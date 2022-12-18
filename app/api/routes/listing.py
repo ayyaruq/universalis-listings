@@ -14,7 +14,7 @@ sort_by_item = lambda x: x['item_id']
 @router.post("/listings", tags=["Internal"])
 async def update_listings(listings: list[ListingIn]):
     # Sort, and then group, by item ID
-    data = sorted(listings, sort_by_item)
+    data = sorted(listings, key=sort_by_item)
     buckets = groupby(data, sort_by_item)
 
     tx = ListingDB._meta.db.atomic()
