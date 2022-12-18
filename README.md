@@ -14,6 +14,7 @@ pip install -r requirements.txt
 ### Getting started guide
 
 ```bash
+export PICCOLO_CONF=app.piccolo_conf
 python main.py
 ```
 
