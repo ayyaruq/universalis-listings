@@ -3,7 +3,7 @@ from itertools import groupby
 from uuid import uuid4
 
 from app.models.listing.tables import Listing as ListingDB
-from app.schemas.listing import ListingModel, ListingSummary
+from app.schemas.listing import ListingModel, ListingSummary, ListingIn
 
 router = APIRouter()
 
@@ -12,7 +12,7 @@ sort_by_item = lambda x: x['item_id']
 
 
 @router.post("/listings", tags=["Internal"])
-async def update_listings(listings: list[ListingsIn]):
+async def update_listings(listings: list[ListingIn]):
     # Sort, and then group, by item ID
     data = sorted(listings, sort_by_item)
     buckets = groupby(data, sort_by_item)
