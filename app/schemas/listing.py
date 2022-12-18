@@ -53,7 +53,7 @@ class ListingBase(BaseModel):
 
 # A stripped down listing
 class ListingSummary(ListingBase):
-    last_upload_time: int
+    last_upload_time: datetime
     creator: CharacterBase | None
 
 
@@ -71,4 +71,20 @@ class ListingIn(ListingBase):
     creator: CharacterBase | None
     on_mannequin: bool
     dye_id: int
-    last_review_time: int
+    last_review_time: datetime
+
+    def __getitem__(self, item):
+        return getattr(self, item)
+
+    @validator('last_review_time', pre=True)
+    def epoch_to_datetime(cls, v):
+        return datetime.fromtimestamp(v)
+
+
+    class Config:
+        json_encoders = {
+            datetime: lambda v: int(v.timestamp()),
+        }
+        json_decoders = {
+            datetime: lambda v: datetime.fromtimestamp(v),
+        }
