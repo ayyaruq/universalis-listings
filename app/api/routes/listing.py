@@ -22,11 +22,11 @@ async def update_listings(listings: list[ListingIn]):
         # For each item ID, we clear current listings
         tx.add(ListingDB
             .update({ListingDB.live: False})
-            .where((ListingDB.item_id == item_id) & (ListingDB.live == True))
+            .where((ListingDB.item_id == item_id) & (ListingDB.live == True)))
 
         updates: list[ListingDB] = []
         for entry in entries:
-            listing = ListingDB(**listing.dict())
+            listing = ListingDB(**entry.dict())
             updates.append(listing)
 
         # insert list of new entries to DB
